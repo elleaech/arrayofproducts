@@ -10,9 +10,9 @@
 
 typedef int8_t vsBool;
 
-vsBool setProducList(int32_t *numbersList,
-                     int32_t numbersListSize,
-                     int32_t *outputList,
-                     int32_t outputListSize);
+vsBool setProducList(int64_t *numbersList,
+                     int64_t numbersListSize,
+                     int64_t *outputList,
+                     int64_t outputListSize);
 
 #endif /* #ifndef __ARRAYS_OF_PRODUCTS_H__ */
