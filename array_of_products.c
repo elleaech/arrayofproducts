@@ -14,24 +14,6 @@ printResult_(int64_t *outputList, int64_t listSize)
     }
 }
 
-int main()
-{
-    int64_t listOfNumbers[LIST_SIZE] = {1, 2, 3, 4, 5};
-    int64_t productList[LIST_SIZE];
-
-    vsBool rc = setProducList(listOfNumbers,
-                              LIST_SIZE,
-                              productList,
-                              LIST_SIZE);
-
-    if (TRUE == rc)
-    {
-        printResult_(productList, LIST_SIZE);
-    }
-
-    return 0;
-}
-
 static void
 arrayOfProducts_(const int64_t *list,
                  int64_t currentIndex,
@@ -39,29 +21,42 @@ arrayOfProducts_(const int64_t *list,
                  const int64_t *finishBound)
 {
     // printf("Function call: arrayOfProducts_\n");
-    int64_t product = 1;
 
-    for (int64_t index = 0;; index++)
+    for (int64_t index = 0; (list + index) <= finishBound; index++)
     {
         if ((list + index) != (list + currentIndex))
         {
             // printf("calculating product...\n");
-            product *= *(list + index);
-        }
-
-        if ((list + index) == finishBound)
-        {
-            break;
+            *(listOutput + currentIndex) *= *(list + index);
         }
     }
-
-    // printf("added to outputList!\n\n");
-    listOutput[currentIndex] = product;
 
     if ((list + currentIndex) != finishBound)
     {
         arrayOfProducts_(list, (currentIndex + 1), listOutput, finishBound);
     }
+}
+
+int main()
+{
+    int64_t listOfNumbers[LIST_SIZE] = {1, 2, 3, 4, 5};
+    int64_t productList[LIST_SIZE] = {1, 1, 1, 1, 1};
+
+    /*
+    vsBool rc = setProducList(listOfNumbers,
+                              LIST_SIZE,
+                              productList,
+                              LIST_SIZE);
+    */
+    vsBool rc = TRUE;
+    arrayOfProducts_(listOfNumbers, 0, productList, &listOfNumbers[LIST_SIZE - 1]);
+
+    if (TRUE == rc)
+    {
+        printResult_(productList, LIST_SIZE);
+    }
+
+    return 0;
 }
 
 vsBool
