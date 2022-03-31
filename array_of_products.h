@@ -10,6 +10,8 @@
 
 typedef int8_t vsBool;
 
+void printResult(int64_t *outputList, int64_t listSize);
+
 vsBool setProducList(int64_t *numbersList,
                      int64_t numbersListSize,
                      int64_t *outputList,
