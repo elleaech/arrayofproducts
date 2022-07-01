@@ -2,37 +2,8 @@
 
 #define LIST_SIZE 5
 
-static void
-arrayOfProducts_(const int64_t *list,
-                 int64_t *listOutput,
-                 const int64_t *finishBound)
-{
-    // printf("Function call: arrayOfProducts_\n");
-    static int64_t currentIndex = 0;
+static void arrayOfProducts_(const int64_t *list, int64_t *listOutput, int64_t listsSize);
 
-    int64_t product = 1;
-
-    for (int64_t index = 0; (list + index) <= finishBound; index++)
-    {
-        if ((list + index) != (list + currentIndex))
-        {
-            // printf("calculating product...\n");
-            product *= *(list + index);
-        }
-    }
-
-    *(listOutput + currentIndex) = product;
-
-    if ((list + currentIndex) != finishBound)
-    {
-        currentIndex++;
-        arrayOfProducts_(list, listOutput, finishBound);
-    }
-    else
-    {
-        currentIndex = 0;
-    }
-}
 
 int main()
 {
@@ -73,8 +44,6 @@ setProducList(int64_t *numbersList,
               int64_t *outputList,
               int64_t outputListSize)
 {
-    static int64_t *finishBound_ = NULL;
-
     vsBool rc = TRUE;
 
     if (NULL != numbersList && NULL != outputList)
@@ -86,11 +55,7 @@ setProducList(int64_t *numbersList,
 
         if (TRUE == rc)
         {
-            finishBound_ = numbersList + numbersListSize - 1;
-
-            arrayOfProducts_(numbersList, outputList, finishBound_);
-
-            finishBound_ = NULL;
+            arrayOfProducts_(numbersList, outputList, numbersListSize);
         }
     }
     else
@@ -99,4 +64,23 @@ setProducList(int64_t *numbersList,
     }
 
     return rc;
+}
+
+static void
+arrayOfProducts_(const int64_t *list,
+                 int64_t *listOutput,
+                 int64_t listsSize)
+{
+    for (int current_index = 0; current_index < listsSize; current_index++)
+    {
+        int64_t product = 1;
+
+        for (int list_index = 0; list_index < listsSize; list_index++)
+        {
+            if (list_index != current_index)
+                product *= list[list_index];
+        }
+
+        listOutput[current_index] = product;
+    }
 }
